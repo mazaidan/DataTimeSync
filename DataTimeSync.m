@@ -1,6 +1,25 @@
 function DataOutputFinal = DataTimeSync(data_input_only,time_input_datevec,time_output_datevec,varargin)
 
-% DataTimeSync is the function used to sync
+% DataTimeSync is the function used to syncronize the time from the data
+% downloaded from https://avaa.tdata.fi/web/smart
+%
+% Inputs function:
+% data_input_only     : the data input only without the time
+% time_input_datevec  : the time input only in the form of datevec
+% time_output_datevec : the expected time output only without the data
+% varargin{1} : the number of nearest neighbour (k), default: k=5
+% varargin{2} : true = normalization, default = true
+% varargin{3} : true = force negative MI to zero, default = true
+%
+% Outputs function:
+% I1, I2      : mutual information estimates (Equations 8 and 9)
+%
+% Martha Arbayani Zaidan, PhD
+% Postdoctoral Researcher
+% Institute for Atmospheric and Earth System Research (INAR)/Physics
+% Helsinki University, Finland
+
+
 
 % https://se.mathworks.com/help/matlab/ref/timeseries.synchronize.html
 % https://se.mathworks.com/help/matlab/matlab_prog/combine-timetables-and-synchronize-their-data.html
