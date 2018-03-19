@@ -7,25 +7,29 @@ function DataOutputFinal = DataTimeSync(data_input_only,time_input_datevec,time_
 % data_input_only     : the data input only without the time
 % time_input_datevec  : the time input only in the form of datevec
 % time_output_datevec : the expected time output only without the data
-% varargin{1} : the number of nearest neighbour (k), default: k=5
-% varargin{2} : true = normalization, default = true
-% varargin{3} : true = force negative MI to zero, default = true
+% varargin{1} : time_type, option=1,2, default: time_type=1
+% varargin{2} : method, option= 'nanmean', 'nanmedian', default = 'nanmean'
 %
 % Outputs function:
-% I1, I2      : mutual information estimates (Equations 8 and 9)
+% DataOutputFinal : [the time_output_datevec newoutputdata]
 %
 % Martha Arbayani Zaidan, PhD
 % Postdoctoral Researcher
 % Institute for Atmospheric and Earth System Research (INAR)/Physics
 % Helsinki University, Finland
 
-
-
-% https://se.mathworks.com/help/matlab/ref/timeseries.synchronize.html
-% https://se.mathworks.com/help/matlab/matlab_prog/combine-timetables-and-synchronize-their-data.html
-% https://se.mathworks.com/help/matlab/ref/retime.html
-
-time_type
+if nargin < 3 || nargin > 5
+    error('The number of input argument is incorrect');
+elseif nargin == 3
+    time_type = 1;         % default
+    method    = 'mean'; % default
+elseif nargin == 5
+    time_type = varargin{1};
+    method    = 'mean'; % default
+elseif nargin ==5
+    time_type = varargin{1};
+    method    = varargin{2}; % 'mean', 'median'    
+end
 
 % Input time_output:
 datetime_input = datetime(time_input_datevec,'InputFormat','dd-MMM-yyyy HH:mm:ss');
@@ -39,11 +43,11 @@ datetime_output = datetime(time_output_datevec,'InputFormat','dd-MMM-yyyy HH:mm:
 switch time_type
     case 1
         disp('Use specified matrix time_output')
-        data_output = retime(data_input,datetime_output,'mean');
+        data_output = retime(data_input,datetime_output,method);
     case 2
         disp('Use hourly')
-        data_output = retime(data_input,'hourly','mean');
-    case 3
+        data_output = retime(data_input,'hourly',method);
+    %case 3
         %dt = minutes(30);
         %data_output = retime(data_input,'regular','linear','TimeStep',dt);    
     otherwise
@@ -54,6 +58,11 @@ end
 time_output  = data_output.datetime_input;
 time_datevec_output = datevec(time_output);
 
-DataOutput= data_output.data;
+DataOutput= data_output.data_input_only;
 
 DataOutputFinal = [time_datevec_output DataOutput];
+
+% Some useful explanations:
+% https://se.mathworks.com/help/matlab/ref/timeseries.synchronize.html
+% https://se.mathworks.com/help/matlab/matlab_prog/combine-timetables-and-synchronize-their-data.html
+% https://se.mathworks.com/help/matlab/ref/retime.html
