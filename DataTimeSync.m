@@ -70,3 +70,5 @@ DataOutputFinal = [time_datevec_output DataOutput];
 % https://se.mathworks.com/help/matlab/ref/timeseries.synchronize.html
 % https://se.mathworks.com/help/matlab/matlab_prog/combine-timetables-and-synchronize-their-data.html
 % https://se.mathworks.com/help/matlab/ref/retime.html
+% https://se.mathworks.com/help/matlab/matlab_prog/retime-and-synchronize-timetables-using-different-methods.html
+% https://se.mathworks.com/help/matlab/matlab_prog/convert-between-datetime-arrays-numbers-and-strings.html
